@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Subscription — MyRight</title>
+  <link rel="manifest" href="../manifest.json"/>
+  <meta name="theme-color" content="#080e1a"/>
+  <link rel="apple-touch-icon" href="../icons/icon-192.png"/>
+  <link rel="icon" href="../icons/favicon.ico"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<div class="app-topbar"><button class="hamburger-btn" onclick="openSidebar()">☰</button><a href="../index.html" class="logo" style="gap:8px;"><div class="logo-icon" style="width:30px;height:30px;font-size:15px;">⚖️</div><span class="logo-text" style="font-size:18px;">MyRight</span></a><div style="width:38px;"></div></div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <a href="../index.html" class="logo">
+        <div class="logo-icon">⚖️</div>
+        <span class="logo-text">MyRight</span>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">🏠</span> Dashboard</a>
+      <a class="sidebar-item" href="generate.html"><span class="sidebar-icon">✨</span> Generate Document</a>
+      <a class="sidebar-item" href="history.html"><span class="sidebar-icon">📋</span> My Documents</a>
+      <a class="sidebar-item active" href="subscription.html"><span class="sidebar-icon">⭐</span> Subscription</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a class="sidebar-item" href="profile.html"><span class="sidebar-icon">👤</span> Profile</a>
+      <button class="sidebar-item" onclick="handleLogout()"><span class="sidebar-icon">🚪</span> Sign Out</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">⭐ Subscription</h1>
+      <p class="page-sub">Upgrade to generate unlimited legal documents</p>
+    </div>
+
+    <!-- Guest CTA -->
+    <div class="guest-banner" id="guestBanner" style="display:none;">
+      <span class="guest-banner-icon">👤</span>
+      <span>You're in guest mode. <a href="signup.html">Create a free account</a> to subscribe and save documents.</span>
+    </div>
+
+    <!-- Current Plan -->
+    <div class="gen-section" id="currentPlanSection">
+      <h3>Your Current Plan</h3>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div class="plan-badge" id="activePlanBadge">🆓 Free Plan</div>
+        <span style="color:var(--text2);font-size:14px;" id="planDesc">1 free document. Upgrade for unlimited access.</span>
+      </div>
+    </div>
+
+    <!-- Plans Grid -->
+    <div class="section-tag" style="margin-bottom:20px;">Choose Your Plan</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:28px;">
+
+      <div class="plan-card">
+        <div class="plan-name">Pay Per Document</div>
+        <div class="plan-price">₹99 <span>– ₹299</span></div>
+        <p class="plan-desc">Pay only when you need a document</p>
+        <ul class="plan-features">
+          <li>✓ Any document type</li>
+          <li>✓ Instant PDF download</li>
+          <li>✓ No subscription needed</li>
+          <li>✓ Document saved in history</li>
+        </ul>
+        <button onclick="payPerDoc()" class="btn-plan">Generate a Document</button>
+      </div>
+
+      <div class="plan-card plan-popular">
+        <div class="popular-tag">Best Value</div>
+        <div class="plan-name">Pro Monthly</div>
+        <div class="plan-price">₹499 <span>/ month</span></div>
+        <p class="plan-desc">Unlimited documents every month</p>
+        <ul class="plan-features">
+          <li>✓ Unlimited documents</li>
+          <li>✓ All 10 document types</li>
+          <li>✓ Priority AI generation</li>
+          <li>✓ Full document history</li>
+          <li>✓ WhatsApp delivery</li>
+          <li>✓ Template editing</li>
+        </ul>
+        <button onclick="subscribe('monthly')" class="btn-plan btn-plan-primary" id="monthlyBtn">Subscribe — ₹499/month</button>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Pro Yearly</div>
+        <div class="plan-price">₹3,999 <span>/ year</span></div>
+        <p class="plan-desc">Save ₹2,000 vs monthly billing</p>
+        <ul class="plan-features">
+          <li>✓ Everything in Pro Monthly</li>
+          <li>✓ 2 months free</li>
+          <li>✓ CA consultation (1/month)</li>
+          <li>✓ Notary network access</li>
+          <li>✓ Priority support</li>
+          <li>✓ Early access to new docs</li>
+        </ul>
+        <button onclick="subscribe('yearly')" class="btn-plan" id="yearlyBtn">Subscribe — ₹3,999/year</button>
+      </div>
+
+    </div>
+
+    <!-- Trust -->
+    <div class="gen-section">
+      <h3>🔒 Safe &amp; Secure Payment</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:8px;">
+        <div style="display:flex;align-items:center;gap:10px;color:var(--text2);font-size:13px;"><span style="font-size:22px;">🔐</span>256-bit SSL encrypted</div>
+        <div style="display:flex;align-items:center;gap:10px;color:var(--text2);font-size:13px;"><span style="font-size:22px;">💳</span>UPI, Cards, NetBanking</div>
+        <div style="display:flex;align-items:center;gap:10px;color:var(--text2);font-size:13px;"><span style="font-size:22px;">↩️</span>Cancel anytime</div>
+        <div style="display:flex;align-items:center;gap:10px;color:var(--text2);font-size:13px;"><span style="font-size:22px;">📧</span>Receipt emailed instantly</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<nav class="bottom-nav">
+  <a class="bottom-nav-item" href="dashboard.html"><span class="bn-icon">🏠</span>Home</a>
+  <a class="bottom-nav-item" href="generate.html"><span class="bn-icon">✨</span>Generate</a>
+  <a class="bottom-nav-item" href="history.html"><span class="bn-icon">📋</span>Docs</a>
+  <a class="bottom-nav-item active" href="subscription.html"><span class="bn-icon">⭐</span>Plans</a>
+  <a class="bottom-nav-item" href="profile.html"><span class="bn-icon">👤</span>Profile</a>
+</nav>
+
+<div class="toast" id="toast"><span id="toastMsg"></span></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAkq3f19TALpHQ89CoALb-4z18-Lz_Jndc",
+    authDomain: "my-right-a4982.firebaseapp.com",
+    projectId: "my-right-a4982",
+    storageBucket: "my-right-a4982.firebasestorage.app",
+    messagingSenderId: "522849413367",
+    appId: "1:522849413367:web:ede20dd4876808da390bf2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  let currentUser = null;
+
+  const isGuest = localStorage.getItem('mr_guest') === '1';
+
+  if (isGuest) {
+    document.getElementById('guestBanner').style.display = 'flex';
+    // Disable subscribe buttons for guests
+    ['monthlyBtn','yearlyBtn'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) {
+        btn.textContent = btn.textContent.replace('Subscribe', 'Sign up to subscribe');
+        btn.onclick = () => window.location.href = 'signup.html';
+      }
+    });
+  } else {
+    onAuthStateChanged(auth, async user => {
+      if (!user) { window.location.href = 'login.html'; return; }
+      currentUser = user;
+
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (snap.exists()) {
+          const data = snap.data();
+          const plan = data.plan || 'free';
+          const badge = document.getElementById('activePlanBadge');
+          const desc = document.getElementById('planDesc');
+          if (plan === 'monthly') {
+            badge.textContent = '⭐ Pro Monthly';
+            badge.classList.add('pro');
+            desc.textContent = 'Active — Unlimited documents per month.';
+            const mb = document.getElementById('monthlyBtn');
+            mb.textContent = '✓ Current Plan';
+            mb.disabled = true;
+            mb.style.opacity = '0.6';
+          } else if (plan === 'yearly') {
+            badge.textContent = '⭐ Pro Yearly';
+            badge.classList.add('pro');
+            desc.textContent = 'Active — Unlimited documents + CA consultation.';
+            const yb = document.getElementById('yearlyBtn');
+            yb.textContent = '✓ Current Plan';
+            yb.disabled = true;
+            yb.style.opacity = '0.6';
+          }
+        }
+      } catch(e) { console.warn(e); }
+    });
+  }
+
+  window.subscribe = async (planType) => {
+    if (isGuest) { window.location.href = 'signup.html'; return; }
+    if (!currentUser) { showToast('⚠️ Please sign in to subscribe.'); return; }
+
+    let userData = {};
+    try {
+      const snap = await getDoc(doc(db, 'users', currentUser.uid));
+      if (snap.exists()) userData = snap.data();
+    } catch(e) {}
+
+    const plans = {
+      monthly: { amount: 49900, name: 'MyRight Pro Monthly', desc: 'Unlimited legal documents — 1 month' },
+      yearly:  { amount: 399900, name: 'MyRight Pro Yearly', desc: 'Unlimited legal documents — 1 year' }
+    };
+    const plan = plans[planType];
+
+    const options = {
+      key: 'YOUR_RAZORPAY_KEY_ID',  // ← Replace with your Razorpay Key ID
+      amount: plan.amount,
+      currency: 'INR',
+      name: 'MyRight',
+      description: plan.desc,
+      image: '../icons/icon-192.png',
+      prefill: {
+        name: userData.name || currentUser.displayName || '',
+        email: currentUser.email || '',
+        contact: ''
+      },
+      notes: { userId: currentUser.uid, planType },
+      theme: { color: '#d4a843' },
+      modal: { backdropclose: false },
+      handler: async (response) => {
+        try {
+          await updateDoc(doc(db, 'users', currentUser.uid), {
+            plan: planType,
+            planStartDate: serverTimestamp(),
+            razorpayPaymentId: response.razorpay_payment_id
+          });
+          showToast('🎉 You are now a Pro member!');
+          setTimeout(() => window.location.href = 'dashboard.html', 2000);
+        } catch(e) {
+          showToast('⚠️ Payment received but profile update failed. Contact support.');
+        }
+      }
+    };
+
+    try {
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', () => showToast('❌ Payment failed. Please try again.'));
+      rzp.open();
+    } catch(e) {
+      showToast('⚠️ Add your Razorpay Key ID in subscription.html to activate payments.');
+    }
+  };
+
+  window.payPerDoc = () => { window.location.href = 'generate.html'; };
+
+  window.handleLogout = async () => {
+    localStorage.removeItem('mr_guest');
+    try { await signOut(auth); } catch(e) {}
+    window.location.href = '../index.html';
+  };
+
+  window.openSidebar = () => {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('show');
+  };
+
+  window.closeSidebar = () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('show');
+  };
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+</script>
+
+</body>
+</html>
