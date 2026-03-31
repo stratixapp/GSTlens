@@ -1,0 +1,130 @@
+{
+  "name": "GST Lens by Stratix",
+  "short_name": "GST Lens",
+  "description": "AI-powered GST invoice scanner for Indian small businesses. Scan invoices, extract GST data, generate GSTR reports and track ITC instantly.",
+  "start_url": "./index.html",
+  "id": "./index.html",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#13131f",
+  "theme_color": "#e84c2e",
+  "scope": "./",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": [
+    "finance",
+    "business",
+    "productivity"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icon-48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "GST Lens Dashboard \u2014 Track your GST"
+    },
+    {
+      "src": "screenshot-wide.png",
+      "sizes": "1024x500",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "GST Lens \u2014 Full Analytics Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Scan New Bill",
+      "short_name": "Scan",
+      "description": "Scan a new GST invoice instantly",
+      "url": "./index.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "All Bills",
+      "short_name": "Bills",
+      "description": "View your saved invoices",
+      "url": "./index.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "GST Reports",
+      "short_name": "Reports",
+      "description": "View GSTR filing reports",
+      "url": "./index.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "./index.html",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "related_applications": [],
+  "protocol_handlers": [],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}
