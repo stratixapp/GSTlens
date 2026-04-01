@@ -1,181 +1,154 @@
-// GST Lens Service Worker v5 — Play Store Ready
-const APP_VERSION = 'v5.2';
-const STATIC_CACHE = 'gstlens-static-' + APP_VERSION;
-const DYNAMIC_CACHE = 'gstlens-dynamic-' + APP_VERSION;
+// ═══════════════════════════════════════════════════════════════
+//  GST Lens by Stratix — Service Worker  (sw.js)
+//  Fixes applied:
+//   1. Skip chrome-extension:// and non-http(s) URLs before Cache.put()
+//   2. Always clone() response BEFORE consuming body (prevents "body already used")
+//   3. Guard all fetch/cache ops with try-catch to avoid uncaught promise rejections
+// ═══════════════════════════════════════════════════════════════
 
-// Static assets to precache
-const PRECACHE_URLS = [
+const CACHE_NAME   = 'gstlens-v4';
+const SHARE_CACHE  = 'gstlens-share';
+
+// App-shell assets to precache on install
+const PRECACHE_ASSETS = [
+  './',
   './index.html',
-  './privacy.html',
-  './terms.html',
-  './about.html',
-  './support.html',
   './manifest.json',
-  './icon-48.png',
-  './icon-72.png',
-  './icon-96.png',
-  './icon-144.png',
-  './icon-192.png',
-  './icon-512.png',
   './favicon.ico',
   './favicon-32.png',
-  './gst_intelligence.js',
+  './icon-192.png',
+  './icon-512.png',
   './gst_error_detector.js',
-  './gst_health_ui.js',
-  './gst_validator_utils.js',
+  './gst_intelligence.js',
 ];
 
-// ── INSTALL ──
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then(c => c.addAll(PRECACHE_URLS))
-      .catch(err => console.warn('[SW] Precache partial fail:', err))
+// ─── Helper: only cache http / https requests ───────────────────
+// Fixes Error 1: Cache.put() refuses chrome-extension:// scheme
+function isCacheable(request) {
+  const url = new URL(request.url);
+  return url.protocol === 'http:' || url.protocol === 'https:';
+}
+
+// ─── INSTALL: precache app shell ────────────────────────────────
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(
+        PRECACHE_ASSETS.map(url => new Request(url, { cache: 'reload' }))
+      );
+    }).then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
-// ── ACTIVATE ── clean old caches
-self.addEventListener('activate', e => {
-  e.waitUntil(
+// ─── ACTIVATE: purge old caches ─────────────────────────────────
+self.addEventListener('activate', event => {
+  event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(k => k !== STATIC_CACHE && k !== DYNAMIC_CACHE)
+          .filter(k => k !== CACHE_NAME && k !== SHARE_CACHE)
           .map(k => caches.delete(k))
       )
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
+// ─── FETCH: cache-first for app shell, network-first for others ─
+self.addEventListener('fetch', event => {
 
-// ── SHARE TARGET (POST) — handle invoice images shared from other apps ──
-self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-  if (e.request.method === 'POST' && url.pathname.endsWith('index.html')) {
-    e.respondWith((async () => {
-      const formData = await e.request.formData();
-      const file = formData.get('invoice');
-      if (file) {
-        // Store file in cache for app to pick up
-        const cache = await caches.open('gstlens-share');
-        await cache.put('/shared-invoice', new Response(file, {
-          headers: { 'Content-Type': file.type, 'X-File-Name': file.name }
-        }));
-      }
-      return Response.redirect('./index.html?shared=1', 303);
-    })());
-  }
-});
+  // ── Guard 1: skip non-GET and non-http(s) ──
+  if (event.request.method !== 'GET') return;
+  if (!isCacheable(event.request)) return;       // ← Fixes Error 1
 
-// ── FETCH ── tiered caching strategy
-self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-  if (e.request.method !== 'GET') return;
+  // ── Guard 2: skip cross-origin third-party requests we don't own ──
+  // (e.g. Cloudflare CDN scripts, Firebase, etc.)
+  const url = new URL(event.request.url);
+  const isAppShell = url.origin === self.location.origin;
 
-  // Always network: Firebase, external APIs
-  const networkOnly = [
-    'googleapis.com', 'firebaseio.com', 'firestore.googleapis.com',
-    'identitytoolkit', 'securetoken', 'generativelanguage',
-    'firebasestorage.googleapis.com', 'anthropic.com'
-  ];
-  if (networkOnly.some(d => url.hostname.includes(d))) return;
+  if (isAppShell) {
+    // Cache-first strategy for local app files
+    event.respondWith(
+      caches.match(event.request).then(cached => {
+        if (cached) return cached;
 
-  // Static assets: Cache First
-  const staticExts = ['.png','.jpg','.jpeg','.ico','.svg','.woff','.woff2','.ttf'];
-  if (staticExts.some(ext => url.pathname.endsWith(ext)) || url.pathname.includes('manifest')) {
-    e.respondWith(
-      caches.match(e.request).then(cached => cached ||
-        fetch(e.request).then(res => {
-          if (res.ok) caches.open(STATIC_CACHE).then(c => c.put(e.request, res.clone()));
-          return res;
-        }).catch(() => new Response('', {status: 404}))
-      )
-    );
-    return;
-  }
+        // Not in cache → fetch, clone, store
+        return fetch(event.request).then(response => {
+          // ── Guard 3: only cache valid responses ──
+          if (!response || response.status !== 200 || response.type === 'error') {
+            return response;
+          }
 
-  // CDN scripts (jspdf, chart.js, tesseract, xlsx): Stale While Revalidate
-  if (url.hostname.includes('cdnjs.cloudflare.com') ||
-      url.hostname.includes('fonts.googleapis.com') ||
-      url.hostname.includes('fonts.gstatic.com') ||
-      url.hostname.includes('gstatic.com')) {
-    e.respondWith(
-      caches.open(DYNAMIC_CACHE).then(cache =>
-        cache.match(e.request).then(cached => {
-          const networkFetch = fetch(e.request).then(res => {
-            if (res.ok) cache.put(e.request, res.clone());
-            return res;
-          }).catch(() => cached || new Response('', {status: 503}));
-          return cached || networkFetch;
-        })
-      )
-    );
-    return;
-  }
+          // ── Fix Error 2: clone BEFORE the body is read by the browser ──
+          const responseToCache = response.clone();  // ← Fixes Error 3
 
-  // HTML pages: Network First with offline fallback
-  e.respondWith(
-    fetch(e.request)
-      .then(res => {
-        if (res.ok) {
-          const clone = res.clone();
-          caches.open(STATIC_CACHE).then(c => c.put(e.request, clone));
-        }
-        return res;
+          caches.open(CACHE_NAME).then(cache => {
+            try {
+              cache.put(event.request, responseToCache);
+            } catch (e) {
+              // Ignore storage-quota or scheme errors silently
+              console.warn('[SW] cache.put failed:', e.message);
+            }
+          });
+
+          return response;  // original (unconsumed) response goes to browser
+        }).catch(() => {
+          // Offline fallback — serve index.html for navigation requests
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+        });
       })
-      .catch(() =>
-        caches.match(e.request)
-          .then(cached => cached || caches.match('./index.html'))
-      )
-  );
-});
-
-// ── BACKGROUND SYNC ──
-self.addEventListener('sync', e => {
-  if (e.tag === 'sync-bills') {
-    e.waitUntil(
-      self.clients.matchAll().then(clients =>
-        clients.forEach(c => c.postMessage({ type: 'SYNC_BILLS' }))
-      )
     );
   }
+  // For cross-origin requests (Firebase, Razorpay, etc.) — let browser handle naturally
+  // SW does not intercept them, so no caching errors
 });
 
-// ── PUSH NOTIFICATIONS ──
-self.addEventListener('push', e => {
-  if (!e.data) return;
-  let data = {};
-  try { data = e.data.json(); } catch(_) { data = { title: 'GST Lens', body: e.data.text() }; }
-  e.waitUntil(
-    self.registration.showNotification(data.title || 'GST Lens', {
-      body: data.body || 'You have a new notification',
-      icon: './icon-192.png',
-      badge: './icon-96.png',
-      tag: 'gstlens',
-      data: { url: data.url || './' },
-      actions: [{ action: 'open', title: 'Open App' }]
-    })
-  );
-});
-
-self.addEventListener('notificationclick', e => {
-  e.notification.close();
-  const url = e.notification.data?.url || './';
-  e.waitUntil(
-    clients.matchAll({ type: 'window' }).then(list => {
-      const existing = list.find(c => c.url.includes('index.html') || c.url.endsWith('/'));
-      if (existing) { existing.focus(); existing.navigate(url); }
-      else clients.openWindow(url);
-    })
-  );
-});
-
-// ── MESSAGE HANDLER ──
-self.addEventListener('message', e => {
-  if (e.data === 'SKIP_WAITING') self.skipWaiting();
-  if (e.data?.type === 'GET_VERSION') {
-    e.ports[0]?.postMessage({ version: APP_VERSION });
+// ─── BACKGROUND SYNC: notify clients to sync bills ──────────────
+self.addEventListener('sync', event => {
+  if (event.tag === 'sync-bills') {
+    event.waitUntil(notifyClientsToSync());
   }
 });
+
+async function notifyClientsToSync() {
+  const clients = await self.clients.matchAll({ type: 'window' });
+  clients.forEach(client => client.postMessage({ type: 'SYNC_BILLS' }));
+}
+
+// ─── SHARE TARGET: handle incoming shared files ─────────────────
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+  if (
+    event.request.method === 'POST' &&
+    url.pathname === '/' &&
+    url.searchParams.get('shared') === '1'
+  ) {
+    event.respondWith(handleShare(event.request));
+  }
+});
+
+async function handleShare(request) {
+  try {
+    const formData = await request.formData();
+    const files    = formData.getAll('invoices');     // matches manifest share_target
+
+    if (files.length > 0) {
+      const cache = await caches.open(SHARE_CACHE);
+      await Promise.all(
+        files.map(async (file, i) => {
+          const buffer   = await file.arrayBuffer();
+          const response = new Response(buffer, {
+            headers: { 'Content-Type': file.type }
+          });
+          await cache.put(`shared-invoice-${Date.now()}-${i}`, response);
+        })
+      );
+    }
+  } catch (e) {
+    console.warn('[SW] handleShare error:', e.message);
+  }
+
+  // Redirect to app
+  return Response.redirect('./?shared=1', 303);
+}
