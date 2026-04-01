@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e84c2e">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<title>About — GST Lens by Stratix</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d14;--ink2:#13131f;--surface:#f4f3ef;--white:#ffffff;
+  --accent:#e84c2e;--accent2:#ff6b47;--green:#1a7f5a;--green2:#22a373;
+  --muted:#6b6b7a;--border:#e0ddd5;--gold:#c9a84c;
+  --radius:16px;--radius-sm:10px;
+  --shadow:0 2px 16px rgba(10,10,15,0.07);
+  --shadow-lg:0 8px 40px rgba(10,10,15,0.13);
+}
+html,body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* HEADER */
+.page-header{background:var(--ink2);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#e84c2e,#ff6b47);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.brand-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff;}
+.back-btn{padding:7px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:rgba(255,255,255,0.8);font-size:13px;font-weight:600;background:rgba(255,255,255,0.07);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.back-btn:hover{border-color:var(--gold);color:var(--gold);text-decoration:none;}
+
+/* CONTENT */
+.page-content{flex:1;max-width:760px;width:100%;margin:0 auto;padding:40px 24px;}
+.page-hero{text-align:center;margin-bottom:40px;padding:40px 24px;background:var(--white);border-radius:var(--radius);border:1px solid var(--border);}
+.page-hero-icon{font-size:48px;margin-bottom:14px;}
+.page-hero-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--ink);margin-bottom:8px;}
+.page-hero-sub{font-size:14px;color:var(--muted);line-height:1.7;}
+.section{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:28px;margin-bottom:20px;}
+.section h2{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--ink);margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px;}
+.section h3{font-size:14px;font-weight:700;color:var(--ink);margin:16px 0 8px;}
+.section p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.section ul{font-size:14px;color:var(--muted);line-height:1.8;padding-left:20px;margin-bottom:10px;}
+.section li{margin-bottom:4px;}
+.highlight-box{background:linear-gradient(135deg,rgba(232,76,46,0.06),rgba(255,107,71,0.03));border:1.5px solid rgba(232,76,46,0.2);border-radius:var(--radius-sm);padding:16px 18px;margin:14px 0;font-size:13px;color:var(--ink);line-height:1.7;}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:10px;font-weight:800;background:rgba(232,76,46,0.1);color:var(--accent);margin-right:4px;letter-spacing:0.3px;text-transform:uppercase;}
+.badge.green{background:rgba(26,127,90,0.1);color:var(--green);}
+.contact-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:12px;}
+.contact-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.contact-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+.contact-value{font-size:14px;font-weight:600;color:var(--ink);margin-top:2px;}
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px;}
+.feature-item{background:var(--surface);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);}
+.feature-item .fi-icon{font-size:22px;margin-bottom:8px;}
+.feature-item .fi-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.feature-item .fi-sub{font-size:11px;color:var(--muted);line-height:1.5;}
+.form-group{margin-bottom:16px;}
+.form-label{font-size:11px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:block;}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--white);outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,76,46,0.1);}
+.btn-submit{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.btn-submit:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,76,46,0.3);}
+.toc{background:var(--surface);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:24px;border:1px solid var(--border);}
+.toc-title{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;}
+.toc a{font-size:13px;color:var(--accent);display:block;margin-bottom:5px;}
+
+/* FOOTER */
+.page-footer{background:var(--ink2);padding:32px 28px;margin-top:auto;}
+.footer-inner{max-width:760px;margin:0 auto;}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.footer-brand-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#e84c2e,#ff6b47);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.footer-brand-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;}
+.footer-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:20px;}
+.footer-links a{font-size:13px;color:rgba(255,255,255,0.55);transition:color 0.15s;}
+.footer-links a:hover{color:#fff;text-decoration:none;}
+.footer-bottom{font-size:11px;color:rgba(255,255,255,0.3);padding-top:16px;border-top:1px solid rgba(255,255,255,0.07);}
+
+@media(max-width:600px){
+  .page-content{padding:20px 14px;}
+  .page-hero{padding:28px 16px;}
+  .page-hero-title{font-size:22px;}
+  .section{padding:20px 16px;}
+  .feature-grid{grid-template-columns:1fr;}
+  .page-header{padding:0 14px;}
+}
+</style>
+</head>
+<body>
+<header class="page-header">
+  <a class="brand" href="./index.html">
+    <div class="brand-icon">🔍</div>
+    <div class="brand-name">GST Lens</div>
+  </a>
+  <a class="back-btn" href="./index.html">← Back to App</a>
+</header>
+
+<main class="page-content">
+  <div class="page-hero">
+    <div class="page-hero-icon">🔍</div>
+    <div class="page-hero-title">About GST Lens</div>
+    <div class="page-hero-sub">India's smartest AI-powered GST invoice scanner<br>built for small businesses, shop owners &amp; CA firms</div>
+  </div>
+
+  <div class="section">
+    <h2>💡 What is GST Lens?</h2>
+    <p>GST Lens is a Progressive Web App (PWA) built by Stratix Technologies that helps Indian businesses manage their GST invoices smarter. Simply scan or upload any GST invoice — our AI extracts all the tax data in seconds.</p>
+    <p>No manual data entry. No spreadsheets. No missed deductions. GST Lens handles the heavy lifting so you can focus on running your business.</p>
+    <div class="highlight-box">🇮🇳 Built specifically for India's GST ecosystem — supporting CGST, SGST, IGST, HSN codes, GSTR-1, GSTR-2A and GSTR-3B filing summaries.</div>
+  </div>
+
+  <div class="section">
+    <h2>🎯 Who is it for?</h2>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="fi-icon">🏪</div>
+        <div class="fi-title">Small Shop Owners</div>
+        <div class="fi-sub">Track purchase invoices and GST paid without hiring an accountant</div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">🏢</div>
+        <div class="fi-title">MSMEs</div>
+        <div class="fi-sub">Manage vendor invoices, monitor ITC credits and prepare for GST filing</div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">👔</div>
+        <div class="fi-title">CA Firms</div>
+        <div class="fi-sub">Accountant Mode lets you manage multiple clients from one account</div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">🛒</div>
+        <div class="fi-title">Traders &amp; Retailers</div>
+        <div class="fi-sub">Scan purchase bills on the go and get instant GST breakdowns</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>✨ Key Features</h2>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="fi-icon">🤖</div>
+        <div class="fi-title">AI Invoice OCR</div>
+        <div class="fi-sub">GST Intelligence Engine + Tesseract extracts GSTIN, amounts, dates automatically</div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">📊</div>
+        <div class="fi-title">GST Analytics</div>
+        <div class="fi-sub">Monthly dashboards, ITC tracking, vendor spend analysis</div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">📋</div>
+        <div class="fi-title">GST Reports</div>
+        <div class="fi-sub">GSTR-1, GSTR-2A, GSTR-3B summaries ready for your CA</div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">📄</div>
+        <div class="fi-title">PDF &amp; Excel Export</div>
+        <div class="fi-sub">Professional reports in one tap — share with WhatsApp</div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">☁️</div>
+        <div class="fi-title">Cloud Sync</div>
+        <div class="fi-sub">Firebase-powered sync across all your devices</div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-icon">📱</div>
+        <div class="fi-title">Works Offline</div>
+        <div class="fi-sub">Service worker caches your data — works without internet</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🏗️ Built With</h2>
+    <p>GST Lens is built as a modern PWA using:</p>
+    <ul>
+      <li><span class="badge">HTML / CSS / JS</span> Pure frontend — no framework overhead</li>
+      <li><span class="badge green">Firebase</span> Auth, Firestore, Storage, Hosting</li>
+      <li><span class="badge">GST Intelligence</span> Built-in AI engine for invoice understanding</li>
+      <li><span class="badge green">Tesseract.js</span> On-device OCR engine</li>
+      <li><span class="badge">Chart.js</span> Analytics visualisations</li>
+      <li><span class="badge green">jsPDF + SheetJS</span> PDF and Excel generation</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📬 Get in Touch</h2>
+    <div class="contact-card">
+      <div class="contact-icon">✉️</div>
+      <div>
+        <div class="contact-label">Support &amp; Feedback</div>
+        <div class="contact-value">stratixapp@gmail.com</div>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:13px;color:var(--muted);">Version 5.0 · © 2025 Stratix Technologies</p>
+  </div>
+</main>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-brand-icon">🔍</div>
+      <div class="footer-brand-name">GST Lens by Stratix</div>
+    </div>
+    <div class="footer-links">
+      <a href="./index.html">App</a>
+      <a href="./privacy.html">Privacy Policy</a>
+      <a href="./terms.html">Terms of Service</a>
+      <a href="./about.html">About</a>
+      <a href="./support.html">Support</a>
+    </div>
+    <div class="footer-bottom">© 2025 Stratix Technologies. GST Lens is an AI-powered GST invoice analysis tool for Indian businesses. · stratixapp@gmail.com</div>
+  </div>
+</footer>
+</body>
+</html>

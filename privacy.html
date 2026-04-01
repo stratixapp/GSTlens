@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e84c2e">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<title>Privacy Policy — GST Lens by Stratix</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0d0d14;--ink2:#13131f;--surface:#f4f3ef;--white:#ffffff;--accent:#e84c2e;--accent2:#ff6b47;--green:#1a7f5a;--green2:#22a373;--muted:#6b6b7a;--border:#e0ddd5;--gold:#c9a84c;--radius:16px;--radius-sm:10px;}
+html,body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;}
+a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
+.page-header{background:var(--ink2);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#e84c2e,#ff6b47);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.brand-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff;}
+.back-btn{padding:7px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:rgba(255,255,255,0.8);font-size:13px;font-weight:600;background:rgba(255,255,255,0.07);cursor:pointer;}
+.back-btn:hover{border-color:var(--gold);color:var(--gold);text-decoration:none;}
+.page-content{flex:1;max-width:760px;width:100%;margin:0 auto;padding:40px 24px;}
+.page-hero{text-align:center;margin-bottom:32px;padding:40px 24px;background:var(--white);border-radius:var(--radius);border:1px solid var(--border);}
+.page-hero-icon{font-size:48px;margin-bottom:14px;}
+.page-hero-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--ink);margin-bottom:8px;}
+.page-hero-sub{font-size:14px;color:var(--muted);line-height:1.7;}
+.section{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:28px;margin-bottom:20px;}
+.section h2{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--ink);margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border);}
+.section p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.section ul{font-size:14px;color:var(--muted);line-height:1.8;padding-left:20px;margin-bottom:10px;}
+.section li{margin-bottom:4px;}
+.highlight-box{background:linear-gradient(135deg,rgba(26,127,90,0.07),rgba(34,163,115,0.03));border:1.5px solid rgba(26,127,90,0.25);border-radius:var(--radius-sm);padding:16px 18px;margin:14px 0;font-size:14px;color:var(--ink);line-height:1.7;}
+.data-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.data-table th{background:var(--surface);font-weight:800;color:var(--ink);padding:10px 14px;text-align:left;border-bottom:2px solid var(--border);}
+.data-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top;}
+.data-table tr:last-child td{border-bottom:none;}
+.badge-yes{display:inline-block;background:rgba(26,127,90,0.1);color:var(--green);font-weight:700;padding:2px 8px;border-radius:6px;font-size:11px;}
+.badge-no{display:inline-block;background:rgba(232,76,46,0.08);color:var(--accent);font-weight:700;padding:2px 8px;border-radius:6px;font-size:11px;}
+.toc{background:var(--surface);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:24px;border:1px solid var(--border);}
+.toc-title{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;}
+.toc a{font-size:13px;color:var(--accent);display:block;margin-bottom:5px;}
+.contact-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border-radius:var(--radius-sm);margin-bottom:12px;}
+.contact-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.contact-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+.contact-value{font-size:14px;font-weight:600;color:var(--ink);margin-top:2px;}
+.page-footer{background:var(--ink2);padding:32px 28px;margin-top:auto;}
+.footer-inner{max-width:760px;margin:0 auto;}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.footer-brand-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#e84c2e,#ff6b47);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.footer-brand-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;}
+.footer-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:16px;}
+.footer-links a{font-size:13px;color:rgba(255,255,255,0.55);}
+.footer-links a:hover{color:#fff;text-decoration:none;}
+.footer-bottom{font-size:11px;color:rgba(255,255,255,0.3);padding-top:16px;border-top:1px solid rgba(255,255,255,0.07);}
+@media(max-width:600px){.page-content{padding:20px 14px;}.page-hero{padding:28px 16px;}.page-hero-title{font-size:22px;}.section{padding:20px 16px;}.page-header{padding:0 14px;}.data-table{font-size:12px;}.data-table th,.data-table td{padding:8px 10px;}}
+</style>
+</head>
+<body>
+<header class="page-header">
+  <a class="brand" href="./index.html">
+    <div class="brand-icon">🔍</div>
+    <div class="brand-name">GST Lens</div>
+  </a>
+  <a class="back-btn" href="./index.html">← Back to App</a>
+</header>
+
+<main class="page-content">
+  <div class="page-hero">
+    <div class="page-hero-icon">🔐</div>
+    <div class="page-hero-title">Privacy Policy</div>
+    <div class="page-hero-sub">GST Lens by Stratix · Effective January 1, 2025<br>Compliant with IT Act 2000 &amp; DPDP Act 2023</div>
+  </div>
+
+  <div class="highlight-box">
+    🔒 <strong>Your invoices never leave your device.</strong> GST Lens processes all invoice scanning and data extraction entirely on-device using local OCR. No invoice image or extracted data is sent to any external AI API or third-party server.
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#collect">1. What We Collect</a>
+    <a href="#processing">2. How Invoices Are Processed</a>
+    <a href="#firebase">3. Optional Cloud Sync (Firebase)</a>
+    <a href="#usage">4. How We Use Your Data</a>
+    <a href="#sharing">5. Data Sharing</a>
+    <a href="#security">6. Data Security</a>
+    <a href="#retention">7. Data Retention</a>
+    <a href="#rights">8. Your Rights (DPDP Act 2023)</a>
+    <a href="#children">9. Children's Privacy</a>
+    <a href="#changes">10. Changes to This Policy</a>
+    <a href="#contact">11. Contact &amp; DPO</a>
+  </div>
+
+  <div class="section" id="collect">
+    <h2>📋 1. What We Collect</h2>
+    <p>We collect only what is necessary to provide the Service:</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Data Type</th><th>What</th><th>Collected?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Account info</td><td>Name, email address, optional GSTIN</td><td><span class="badge-yes">Yes</span></td></tr>
+        <tr><td>Extracted bill data</td><td>Invoice numbers, amounts, GSTIN, dates, GST values</td><td><span class="badge-yes">Yes (locally)</span></td></tr>
+        <tr><td>Invoice images</td><td>Photos or PDFs of invoices you scan</td><td><span class="badge-yes">Locally only</span></td></tr>
+        <tr><td>Usage data</td><td>Feature usage patterns (anonymous, no personal data)</td><td><span class="badge-yes">Yes</span></td></tr>
+        <tr><td>Payment information</td><td>Credit cards, bank details, UPI IDs</td><td><span class="badge-no">Never</span></td></tr>
+        <tr><td>Location data</td><td>GPS or precise location</td><td><span class="badge-no">Never</span></td></tr>
+        <tr><td>Contacts / phone data</td><td>Your contacts, call logs, or SMS</td><td><span class="badge-no">Never</span></td></tr>
+        <tr><td>Device identifiers</td><td>IMEI, MAC address, advertising IDs</td><td><span class="badge-no">Never</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section" id="processing">
+    <h2>📷 2. How Invoices Are Processed</h2>
+    <p>All invoice scanning and data extraction happens <strong>entirely on your device</strong>, using:</p>
+    <ul>
+      <li><strong>Tesseract OCR</strong> — open-source, runs locally in your browser, no data sent externally</li>
+      <li><strong>GST Intelligence Engine</strong> — built-in rule-based system for GST rate detection and ITC analysis, fully offline</li>
+      <li><strong>PDF.js</strong> — local PDF rendering, no server upload required</li>
+    </ul>
+    <div class="highlight-box">
+      📄 Invoice images and PDF files are processed in your browser memory only. They are <strong>never uploaded to any external AI service, OCR API, or third-party server</strong> by GST Lens.
+    </div>
+    <p>If you enable optional Firebase cloud sync (see Section 3), extracted bill data (not raw images) is synced to your personal Firebase project.</p>
+  </div>
+
+  <div class="section" id="firebase">
+    <h2>☁️ 3. Optional Cloud Sync (Firebase)</h2>
+    <p>GST Lens offers optional cloud sync using Google Firebase. This is entirely optional — the app works fully offline without it.</p>
+    <p>If you choose to enable Firebase sync:</p>
+    <ul>
+      <li>Your extracted bill data is stored in Firebase Firestore under your user account</li>
+      <li>Invoice images you choose to back up are stored in Firebase Storage under your account</li>
+      <li>Google Firebase is subject to <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a></li>
+      <li>Stratix Technologies does not have access to your Firebase data — it is stored in your project</li>
+    </ul>
+    <p>You can disconnect Firebase and delete all cloud data at any time from Settings.</p>
+  </div>
+
+  <div class="section" id="usage">
+    <h2>🔧 4. How We Use Your Data</h2>
+    <p>We use the data we collect solely to:</p>
+    <ul>
+      <li>Provide and maintain the GST Lens Service</li>
+      <li>Authenticate your account and sync data across devices (if Firebase is enabled)</li>
+      <li>Send important Service notifications (e.g., policy changes)</li>
+      <li>Improve the app's OCR accuracy and GST rule engine anonymously</li>
+      <li>Respond to your support requests</li>
+    </ul>
+    <p>We do <strong>not</strong> use your data for advertising, profiling, or selling to third parties.</p>
+  </div>
+
+  <div class="section" id="sharing">
+    <h2>🤝 5. Data Sharing</h2>
+    <p>We do not sell, rent, or trade your personal data. Data may be shared only in these limited circumstances:</p>
+    <ul>
+      <li><strong>Firebase (Google):</strong> For optional cloud sync — only if you enable it</li>
+      <li><strong>Law enforcement:</strong> When legally required under Indian law (IT Act 2000, DPDP Act 2023) upon receipt of a valid legal order</li>
+      <li><strong>Business transfer:</strong> In the event of a merger or acquisition, users will be notified and the same privacy standards will apply</li>
+    </ul>
+    <p>No data is shared with advertisers, data brokers, analytics companies, or any AI service provider.</p>
+  </div>
+
+  <div class="section" id="security">
+    <h2>🔒 6. Data Security</h2>
+    <p>We take data security seriously:</p>
+    <ul>
+      <li>All data in transit is protected by HTTPS/TLS encryption</li>
+      <li>Firebase data is encrypted at rest by Google</li>
+      <li>Invoice images are processed in browser memory and not persisted to any external server by GST Lens</li>
+      <li>Passwords are never stored — authentication uses Firebase Auth (Google/email) with industry-standard security</li>
+      <li>We do not store any payment or financial credentials</li>
+    </ul>
+  </div>
+
+  <div class="section" id="retention">
+    <h2>🗓️ 7. Data Retention</h2>
+    <p>We retain your data only as long as your account is active:</p>
+    <ul>
+      <li><strong>Account data:</strong> Retained until you delete your account</li>
+      <li><strong>Bill data (local):</strong> Stored on your device; cleared when you clear app data or uninstall</li>
+      <li><strong>Bill data (Firebase):</strong> Retained in your Firebase project until you delete it from Settings</li>
+      <li><strong>Account deletion:</strong> All data is permanently deleted within 30 days of account deletion</li>
+    </ul>
+    <p>You can delete all your data at any time from Settings → Delete Account.</p>
+  </div>
+
+  <div class="section" id="rights">
+    <h2>🇮🇳 8. Your Rights (DPDP Act 2023)</h2>
+    <p>Under the Digital Personal Data Protection Act, 2023, you have the following rights:</p>
+    <ul>
+      <li><strong>Right to Access:</strong> Request a copy of the personal data we hold about you</li>
+      <li><strong>Right to Correction:</strong> Request correction of inaccurate personal data</li>
+      <li><strong>Right to Erasure:</strong> Request deletion of your personal data</li>
+      <li><strong>Right to Grievance Redressal:</strong> Lodge a complaint with us or the Data Protection Board of India</li>
+      <li><strong>Right to Nominate:</strong> Nominate another person to exercise these rights on your behalf</li>
+    </ul>
+    <p>To exercise any of these rights, contact our Data Protection Officer at <a href="mailto:stratixapp@gmail.com">stratixapp@gmail.com</a>. We will respond within 30 days.</p>
+  </div>
+
+  <div class="section" id="children">
+    <h2>👶 9. Children's Privacy</h2>
+    <p>GST Lens is a business tool intended for use by adults for GST compliance purposes. We do not knowingly collect personal data from children under 18. If you believe a child has provided us with personal data, please contact us immediately and we will delete it.</p>
+  </div>
+
+  <div class="section" id="changes">
+    <h2>📝 10. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. When we do, we will:</p>
+    <ul>
+      <li>Update the effective date at the top of this page</li>
+      <li>Notify users via in-app notification for material changes</li>
+      <li>For significant changes affecting your rights, provide at least 30 days' notice</li>
+    </ul>
+    <p>Continued use of the Service after changes constitutes acceptance of the updated policy.</p>
+  </div>
+
+  <div class="section" id="contact">
+    <h2>📬 11. Contact &amp; DPO</h2>
+    <p>For privacy concerns, data requests, or complaints, contact our Data Protection Officer:</p>
+    <div class="contact-card">
+      <div class="contact-icon">✉️</div>
+      <div>
+        <div class="contact-label">Data Protection Officer</div>
+        <div class="contact-value"><a href="mailto:stratixapp@gmail.com">stratixapp@gmail.com</a></div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">🏢</div>
+      <div>
+        <div class="contact-label">Company Address</div>
+        <div class="contact-value">Stratix Technologies, Bengaluru — 560001, Karnataka, India</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px;">We respond to all privacy inquiries within 30 days as required by the DPDP Act 2023.</p>
+  </div>
+</main>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-brand-icon">🔍</div>
+      <div class="footer-brand-name">GST Lens by Stratix</div>
+    </div>
+    <div class="footer-links">
+      <a href="./index.html">App</a>
+      <a href="./privacy.html">Privacy Policy</a>
+      <a href="./terms.html">Terms of Service</a>
+      <a href="./support.html">Support</a>
+      <a href="./about.html">About</a>
+    </div>
+    <div class="footer-bottom">© 2025 Stratix Technologies · Made in India 🇮🇳 · Your data stays on your device</div>
+  </div>
+</footer>
+</body>
+</html>
